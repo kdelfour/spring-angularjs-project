@@ -17,6 +17,7 @@ import com.netceler.afas.workbench.common.model.Rule;
  *
  */
 @Repository
+@Transactional 
 @SuppressWarnings("unchecked")
 public class RuleDaoImpl implements IRuleDao {
 
@@ -46,7 +47,6 @@ public class RuleDaoImpl implements IRuleDao {
 	 */
 
 	@Override
-	@Transactional
 	public List<Rule> list() {
 		List<Rule> listRule = (List<Rule>) sessionFactory.getCurrentSession()
 				.createCriteria(Rule.class)
@@ -65,7 +65,6 @@ public class RuleDaoImpl implements IRuleDao {
 	 * @see com.netceler.afas.workbench.common.dao.IRuleDao#saveOrUpdate(com.netceler.afas.workbench.common.model.Rule)
 	 */
 	@Override
-	@Transactional
 	public Rule saveOrUpdate(Rule rule) {
 		sessionFactory.getCurrentSession().saveOrUpdate(rule);
 		return rule;
@@ -77,7 +76,6 @@ public class RuleDaoImpl implements IRuleDao {
 	 * @see com.netceler.afas.workbench.common.dao.IRuleDao#delete(long)
 	 */
 	@Override
-	@Transactional
 	public void delete(long id) {
 		final Rule ruleToDelete = new Rule();
 		ruleToDelete.setId(id);
@@ -90,7 +88,6 @@ public class RuleDaoImpl implements IRuleDao {
 	 * @see com.netceler.afas.workbench.common.dao.IRuleDao#get(long)
 	 */
 	@Override
-	@Transactional
 	public Rule get(long id) {
 		String hql = "from Rule where id=" + id;
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);

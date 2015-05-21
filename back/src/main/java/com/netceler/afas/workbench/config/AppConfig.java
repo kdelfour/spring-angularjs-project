@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.netceler.afas.workbench.common.dao.IRuleDao;
@@ -27,17 +29,14 @@ import com.netceler.afas.workbench.common.model.Rule;
 @Configuration
 @ComponentScan("com.netceler.afas.workbench")
 @EnableWebMvc
+@EnableTransactionManagement
 public class AppConfig {
 
 	@Bean(name = "dataSource")
 	public DataSource getDataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-		dataSource.setUrl("jdbc:hsqldb:hsql://localhost/testdb");
-		dataSource.setUsername("sa");
-		dataSource.setPassword("");
-
-		return dataSource;
+		return (DataSource) new EmbeddedDatabaseBuilder()
+				.setType(EmbeddedDatabaseType.HSQL)
+				.addScript("classpath:schema.sql").build();
 	}
 
 	private Properties getHibernateProperties() {

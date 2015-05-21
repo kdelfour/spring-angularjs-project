@@ -2,6 +2,7 @@
  * 
  */
 package com.netceler.afas.workbench.common.model;
+
 import static javax.persistence.GenerationType.AUTO;
 
 import java.io.Serializable;
@@ -15,27 +16,31 @@ import org.hibernate.envers.Audited;
 
 /**
  * Basic rule model
+ * 
  * @author kdelfour
  *
  */
 @Entity
 @Audited
-public class Rule  implements Serializable{
+public class Rule implements Serializable {
+
+	/* */
+	private static final long serialVersionUID = -8591119632287730405L;
 
 	/** Rule ident */
 	@Id
-    @GeneratedValue(strategy = AUTO)
-    @Column
+	@GeneratedValue(strategy = AUTO)
+	@Column
 	private Long id;
 
 	/** Rule title */
 	@Column(length = 50, nullable = false, unique = true)
 	private String title;
-	
+
 	/** Rule description */
 	@Column(length = 200, nullable = true)
 	private String description;
-	
+
 	/** Rule code */
 	@Column(length = 1024, nullable = true)
 	private String code;
