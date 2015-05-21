@@ -13,13 +13,14 @@ import com.netceler.afas.workbench.common.model.Rule;
 
 /**
  * Rule DAO
+ * 
  * @author kdelfour
  *
  */
-@Repository
-@Transactional 
-@SuppressWarnings("unchecked")
-public class RuleDaoImpl implements IRuleDao {
+ @Repository
+ @Transactional
+ @SuppressWarnings("unchecked")
+public class RuleDaoImpl  implements IRuleDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -33,7 +34,7 @@ public class RuleDaoImpl implements IRuleDao {
 
 	/**
 	 * Rule Dao constructor with session factory
-	 * 
+	 *
 	 * @param sessionFactory
 	 */
 	public RuleDaoImpl(SessionFactory sessionFactory) {
@@ -58,11 +59,16 @@ public class RuleDaoImpl implements IRuleDao {
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * 
 	 * com.netceler.afas.workbench.common.dao.IRuleDao#saveOrUpdate(com.netceler
 	 * .afas.workbench.common.model.Rule)
 	 */
-	/* (non-Javadoc)
-	 * @see com.netceler.afas.workbench.common.dao.IRuleDao#saveOrUpdate(com.netceler.afas.workbench.common.model.Rule)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netceler.afas.workbench.common.dao.IRuleDao#saveOrUpdate(com.netceler
+	 * .afas.workbench.common.model.Rule)
 	 */
 	@Override
 	public Rule saveOrUpdate(Rule rule) {

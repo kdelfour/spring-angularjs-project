@@ -1,4 +1,4 @@
-package com.netceler.afas.workbench.config;
+package com.netceler.afas.workbench.common.config;
 
 import java.util.Properties;
 
@@ -13,6 +13,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -20,23 +21,18 @@ import com.netceler.afas.workbench.common.dao.IRuleDao;
 import com.netceler.afas.workbench.common.dao.RuleDaoImpl;
 import com.netceler.afas.workbench.common.model.Rule;
 
-/**
- * Spring configuration (replace old context.xml)
- * 
- * @author kdelfour
- *
- */
 @Configuration
 @ComponentScan("com.netceler.afas.workbench")
 @EnableWebMvc
 @EnableTransactionManagement
-public class AppConfig {
+public class AppTestConfig {
 
 	@Bean(name = "dataSource")
 	public DataSource getDataSource() {
-		return (DataSource) new EmbeddedDatabaseBuilder()
+		DataSource datasource = (DataSource) new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.HSQL)
 				.addScript("classpath:schema.sql").build();
+		return datasource;
 	}
 
 	private Properties getHibernateProperties() {
@@ -69,6 +65,7 @@ public class AppConfig {
 			SessionFactory sessionFactory) {
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager(
 				sessionFactory);
+		transactionManager.setRollbackOnCommitFailure(true);
 		return transactionManager;
 	}
 

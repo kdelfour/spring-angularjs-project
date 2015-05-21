@@ -1,4 +1,4 @@
-package com.netceler.afas.workbench.common.dao;
+package com.netceler.afas.workbench.common.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -25,21 +25,21 @@ import com.netceler.afas.workbench.common.model.Rule;
 @WebAppConfiguration
 @ContextConfiguration(loader = AnnotationConfigWebContextLoader.class, classes = { AppTestConfig.class })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class RuleDaoImplTest {
+public class RuleServiceTest {
 
 	@Autowired
-	private IRuleDao ruleDao;
+	private IRuleService ruleService;
 
 	@Test
 	public void test_list_all_rules_have_been_initiated() {
-		final List<Rule> allRules = ruleDao.list();
+		final List<Rule> allRules = ruleService.list();
 		assertNotNull(allRules);
 		assertNotEquals(0, allRules.size());
 	}
 
 	@Test
 	public void test_get_an_existant_rule() {
-		Rule rule = ruleDao.get(1L);
+		Rule rule = ruleService.get(1L);
 		assertNotNull(rule);
 		assertEquals("R2", rule.getTitle());
 		assertEquals("R2 DESC", rule.getDescription());
@@ -48,13 +48,13 @@ public class RuleDaoImplTest {
 
 	@Test
 	public void test_get_an_unexistant_rule() {
-		Rule rule = ruleDao.get(10L);
+		Rule rule = ruleService.get(10L);
 		assertNull(rule);
 	}
 
 	@Test
 	public void test_create_a_new_rule() {
-		List<Rule> allRules = ruleDao.list();
+		List<Rule> allRules = ruleService.list();
 		int rulesCounter = allRules.size();
 
 		Rule rule = new Rule();
@@ -62,11 +62,11 @@ public class RuleDaoImplTest {
 		rule.setDescription("Rx DESC");
 		rule.setCode("JAVA");
 
-		Rule newRule = ruleDao.saveOrUpdate(rule);
+		Rule newRule = ruleService.saveOrUpdate(rule);
 		assertNotNull(newRule);
 		assertNotNull(newRule.getId());
 
-		allRules = ruleDao.list();
+		allRules = ruleService.list();
 		assertNotNull(allRules);
 		assertEquals(rulesCounter + 1, allRules.size());
 	}
@@ -77,38 +77,38 @@ public class RuleDaoImplTest {
 		rule.setTitle(null);
 		rule.setDescription("Rx DESC");
 		rule.setCode("JAVA");
-		ruleDao.saveOrUpdate(rule);
+		ruleService.saveOrUpdate(rule);
 	}
 
 	@Test
 	public void test_update_an_existing_rule() {
-		Rule oldRule = ruleDao.get(2L);
+		Rule oldRule = ruleService.get(2L);
 		oldRule.setTitle("Rx modified");
 
-		Rule newRule = ruleDao.saveOrUpdate(oldRule);
+		Rule newRule = ruleService.saveOrUpdate(oldRule);
 		assertNotNull(newRule);
 		assertEquals("Rx modified", newRule.getTitle());
 
-		Rule ruleInDb = ruleDao.get(2L);
+		Rule ruleInDb = ruleService.get(2L);
 		assertNotNull(ruleInDb);
 		assertEquals("Rx modified", ruleInDb.getTitle());
 	}
 
 	@Test
 	public void test_delete_an_existing_rule() {
-		List<Rule> allRules = ruleDao.list();
+		List<Rule> allRules = ruleService.list();
 		int rulesCounter = allRules.size();
 
-		ruleDao.delete(0L);
+		ruleService.delete(4L);
 
-		allRules = ruleDao.list();
+		allRules = ruleService.list();
 		assertNotNull(allRules);
 		assertEquals(rulesCounter - 1, allRules.size());
 	}
 
 	@Test(expected = HibernateOptimisticLockingFailureException.class)
 	public void test_delete_an_unexisting_rule() {
-		ruleDao.delete(10L);
+		ruleService.delete(10L);
 	}
 
 }

@@ -5,6 +5,9 @@ package com.netceler.afas.workbench.common.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.netceler.afas.workbench.common.model.Rule;
 
 /**
@@ -13,6 +16,8 @@ import com.netceler.afas.workbench.common.model.Rule;
  * @author kdelfour
  *
  */
+@Repository
+@Transactional
 public interface IRuleDao {
 
 	/**
@@ -24,7 +29,7 @@ public interface IRuleDao {
 
 	/**
 	 * Get a rule by Id
-	 * 
+	 *
 	 * @param ident
 	 * @return
 	 */
@@ -32,14 +37,14 @@ public interface IRuleDao {
 
 	/**
 	 * Delete a rule by Id
-	 * 
+	 *
 	 * @param id
 	 */
 	public void delete(long id);
 
 	/**
 	 * Create or update a rule
-	 * 
+	 *
 	 * @param rule
 	 * @return
 	 */
